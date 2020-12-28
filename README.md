@@ -1,0 +1,2 @@
+# Azure
+azure learning notes
