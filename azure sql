@@ -1,0 +1,14 @@
+To automate this maintenance process we need the ability to find problematic Indexes. The following Stored Procedure will return a list of Index names and their average fragmentation as a percent values. Be sure to replace the DatabaseName with the name of the database you are working with.
+
+CREATE PROCEDURE [dbo].[GetIndexFragmentation]
+    @tableName nvarchar(max)
+AS
+SELECT name, avg_fragmentation_in_percent
+FROM sys.dm_db_index_physical_stats (
+       DB_ID(N'DatabaseName')
+     , OBJECT_ID(@tableName)
+     , NULL
+     , NULL
+     , NULL) AS a
+JOIN sys.indexes AS b 
+ON a.object_id = b.object_id AND a.index_id = b.index_id;
